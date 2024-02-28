@@ -24,6 +24,7 @@ const showAllPhone = async phoneName => {
 
 const displayPhone = phones => {
   const display = document.getElementById('phone-container');
+  spinner(false);
   phones.forEach(phone => {
     const div = document.createElement('div');
     div.classList.add(
@@ -40,8 +41,11 @@ const displayPhone = phones => {
     );
     div.innerHTML = `
     <div class="bg-[#0D6EFD0D]"> <img src="${phone.image}" alt=""></div>
-    <h2>${phone.phone_name}</h2>
-    <button class="bg-blue-600 px-5 py-2 text-white rounded-lg my-4">Show Details</button>
+    <h2 class="my-3 text-2xl font-semibold">${phone.phone_name}</h2>
+    <p>"Stay connected with the latest smartphones at unbeatable prices. Explore our wide selection of top-notch mobile devices today!"</p>
+    <h2 class="text-2xl my-2 font-semibold">$999</h2>
+    <button onclick="anotherAPI('${phone.slug}')"
+    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Show Details</button>
     `;
     display.appendChild(div);
   });
@@ -52,19 +56,22 @@ searchBtn.addEventListener('click', () => {
   // console.log('btn clicked');
   const searchBox = document.getElementById('searchBox');
   const searchValue = searchBox.value;
-  console.log(searchValue);
+  // console.log(searchValue);
   const display = document.getElementById('phone-container');
   display.innerHTML = '';
+  spinner(true);
   showAllPhone(searchValue);
 });
 
-// showAllPhone('iphone');
-
-const anotherAPI = async () => {
-  const res = await fetch(
-    'https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-11089'
-  );
-  const data =await res.json();
-  console.log(data);
+const spinner = value => {
+  const spinnerBtn = document.getElementById('spinner');
+  if (!!value) {
+    spinnerBtn.classList.remove('hidden');
+  } else {
+    spinnerBtn.classList.add('hidden');
+  }
 };
-anotherAPI();
+
+showAllPhone('iphone');
+showAllPhone('samsung');
+showAllPhone('oppo');
